@@ -1,0 +1,18 @@
+Мануал сделан по этому видео: https://www.youtube.com/watch?v=yiQbJG_dSIc&t=1937s
+
+1. Докер запускается командой make init.
+2. В PHP Storm зайти в PHP -> Servers
+    Добавить сервер с таким же именем как в файле docker-compose.yml в 8 строке. Например:
+        "docker"
+    Указать хост которые вводятся в адресную строку броузера. Например
+        "eagle.loc" и "80"
+    Установить галку "Use path mappings" и для папки проекта установить маппинг к папке проекта в контейнере.
+    Например сейчас это /var/www (12 строка в файле docker-compose.yml):
+        D:\code\xdebug-docker-phpstorm  -  /var/www
+3. Добавить конфигурацию PHP Remote debug. В ней установить:
+        - галку Filter debug connection by IDE key
+        - в селекте server выбрать docker
+        - в IDE key написать "PHPSTORM"
+4. Установить расширение броузера Xdebug helper и там выбрать PHP Storm и установить такое же значение как в IDE key.
+5. Включить прослушивание порта в PHP Storm.
+6. Установить точку останова и дебажить. :)

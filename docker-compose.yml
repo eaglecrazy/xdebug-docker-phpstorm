@@ -1,0 +1,26 @@
+version: "3"
+services:
+  php:
+    build:
+      context: php
+    # в PHP Storm в настройках PHP -> Servers нужно назвать сервер так как в переменной "docker"
+    environment:
+      - PHP_IDE_CONFIG=serverName=docker
+    volumes:
+      # пробрасываем директорию public в контейнер в /var/www/public
+      # этот же путь указан в файле nginx.conf в 9 строке
+      - ./public:/var/www/public
+      # пробрасываем настройки xdebug в контейнер
+      - ./php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+  nginx:
+    image: nginx
+    volumes:
+      # пробрасываем файл nginx.conf в контейнер вместо default.conf
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    # броузер делает запрос на 80 порт, мы пробрасываем его в контейнер на 80 порт
+    # порт контейнера можно изменить в nginx.conf в строке 3
+    ports:
+      - "80:80"
+    # контейнер зависит от контейнера php и запустится после него
+    depends_on:
+      - php
